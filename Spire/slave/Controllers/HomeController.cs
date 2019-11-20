@@ -6,11 +6,36 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace slave.Controllers
 {
 	public class HomeController : Controller
 	{
+
+		private string Search(string data){
+			StringBuilder result = new StringBuilder();
+			DirectoryInfo dir = new DirectoryInfo("scripts");
+			FileInfo[] files = dir.GetFiles("*");
+			foreach(FileInfo file in files){
+				string filename = Obfuscate(file.Name);
+				if(Equals(data, filename)){
+					result.Append(file.Name);
+				}
+			}
+			return(result.ToString());
+		}
+
+        private static string Obfuscate(string data){
+            var result = new StringBuilder();
+            SHA256 sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(data));
+            for(int i = 0; i < bytes.Length; i++){
+                result.Append(bytes[i].ToString("x4"));
+            }
+            return(result.ToString());
+        }
 
 		[Route("/")]
 		public ActionResult Index (){
@@ -23,10 +48,15 @@ namespace slave.Controllers
 		public ActionResult PostIndex()
 		{
 			try{
-				var filename = HttpContext.Request.Form["fname"];
+				var filename_obfuscated = HttpContext.Request.Form["fname"];
+				var filename = Search(filename_obfuscated);
+				if(String.IsNullOrEmpty(filename)){
+					return Content("Could not find the filename in question...");
+				}
 				var path = String.Format("scripts/{0}", filename);
 				Process.Start(path);
-				return Content("Script successfully executed!");
+				string response = String.Format("Successfully executed {0}!", filename);
+				return Content(response);
 			} catch (Exception e){
 				var err = String.Format("An error has occured: {0}", e);
 				return Content(err);
