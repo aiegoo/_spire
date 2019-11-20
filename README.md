@@ -1,2 +1,2 @@
 # Spire
-Very simple automation solution
+Very Simple Automation Solution
