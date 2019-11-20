@@ -14,12 +14,13 @@ namespace slave.Controllers
 	public class HomeController : Controller
 	{
 
-		private string Search(string data){
+		private string Search(string data, string secret){
 			StringBuilder result = new StringBuilder();
 			DirectoryInfo dir = new DirectoryInfo("scripts");
 			FileInfo[] files = dir.GetFiles("*");
 			foreach(FileInfo file in files){
-				string filename = Obfuscate(file.Name);
+				var complete = file.Name + secret;
+				var filename = Obfuscate(complete);
 				if(Equals(data, filename)){
 					result.Append(file.Name);
 				}
@@ -49,7 +50,8 @@ namespace slave.Controllers
 		{
 			try{
 				var filename_obfuscated = HttpContext.Request.Form["fname"];
-				var filename = Search(filename_obfuscated);
+				var secret = System.IO.File.ReadAllText("secret.txt");
+				var filename = Search(filename_obfuscated, secret);
 				if(String.IsNullOrEmpty(filename)){
 					return Content("Could not find the filename in question...");
 				}

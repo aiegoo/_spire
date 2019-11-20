@@ -31,19 +31,16 @@ namespace server_update
                 script_name = args[0];
             }
             using var client = new HttpClient();
-            var hosts_file = "slavelist.txt";
-            var hosts = File.ReadLines(hosts_file);
+            var hosts = System.IO.File.ReadLines("slavelist.txt");
             foreach(var line in hosts){
-                try{
-                    Console.WriteLine("\nRunning script {0} on host {1}", script_name, line);
-                    var data = new Dictionary<string, string>{{"fname", Obfuscate(script_name)}};
-                    var tosend = new FormUrlEncodedContent(data);
-                    var send = await client.PostAsync(line, tosend);
-                    var response = await send.Content.ReadAsStringAsync();
-                    Console.WriteLine("{0}\n", response);
-                } catch (Exception e) {
-                    Console.WriteLine("An error has occured: {0}", e);
-                }
+                var secret = System.IO.File.ReadAllText("secret.txt");
+                var complete = script_name + secret;
+                Console.WriteLine("\nRunning script {0} on host {1}", script_name, line);
+                var data = new Dictionary<string, string>{{"fname", Obfuscate(complete)}};
+                var tosend = new FormUrlEncodedContent(data);
+                var send = await client.PostAsync(line, tosend);
+                var response = await send.Content.ReadAsStringAsync();
+                Console.WriteLine("{0}\n", response);
             }
         }
     }
