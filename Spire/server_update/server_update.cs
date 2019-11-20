@@ -30,7 +30,7 @@ namespace server_update
             } else {
                 script_name = args[0];
             }
-            using var client = new HttpClient();
+            var client = new HttpClient();
             var hosts = System.IO.File.ReadLines("slavelist.txt");
             foreach(var line in hosts){
                 var secret = System.IO.File.ReadAllText("secret.txt");
