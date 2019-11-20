@@ -16,7 +16,7 @@ namespace server_update
             SHA256 sha256 = SHA256.Create();
             byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(data));
             for(int i = 0; i < bytes.Length; i++){
-                result.Append(bytes[i].ToString("x4"));
+                result.Append(bytes[i].ToString());
             }
             return(result.ToString());
         }
