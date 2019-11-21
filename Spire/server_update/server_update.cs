@@ -86,7 +86,7 @@ namespace server_update
                         stream.Close();
                     }
 
-                    Console.WriteLine("Something is wrong with {0}... Check slaves.log for more details...\n", line);
+                    Console.WriteLine("Something is wrong with {0}... Check {1} for more details...\n", line, err_file);
 
                 }
             }
