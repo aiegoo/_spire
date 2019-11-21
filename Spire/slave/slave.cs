@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using System.IO;
 
 namespace slave
 {
@@ -14,7 +15,19 @@ namespace slave
     {
         public static void Main(string[] args)
         {
+
+            if(!System.IO.File.Exists("secret.txt")){
+                Console.WriteLine("Could not find secret.txt file...");
+                Environment.Exit(1);
+            }
+
+			if(!System.IO.Directory.Exists("scripts")){
+				Console.WriteLine("Scripts directory does not exist...");
+				Environment.Exit(1);
+			}
+
             CreateHostBuilder(args).Build().Run();
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -15,9 +15,11 @@ namespace slave.Controllers
 	{
 
 		private string Search(string data, string secret){
-			StringBuilder result = new StringBuilder();
-			DirectoryInfo dir = new DirectoryInfo("scripts");
-			FileInfo[] files = dir.GetFiles("*");
+			
+			var result = new StringBuilder();
+			var dir = new DirectoryInfo("scripts");
+			var files = dir.GetFiles("*");
+
 			foreach(FileInfo file in files){
 				var complete = file.Name + secret;
 				var filename = Obfuscate(complete);
@@ -25,16 +27,20 @@ namespace slave.Controllers
 					result.Append(file.Name);
 				}
 			}
+
 			return(result.ToString());
 		}
 
         private static string Obfuscate(string data){
-            var result = new StringBuilder();
-            SHA256 sha256 = SHA256.Create();
-            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(data));
-            for(int i = 0; i < bytes.Length; i++){
+            
+			var result = new StringBuilder();
+            var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(data));
+            
+			for(int i = 0; i < bytes.Length; i++){
                 result.Append(bytes[i].ToString());
             }
+
             return(result.ToString());
         }
 
@@ -48,21 +54,21 @@ namespace slave.Controllers
 		[HttpPost]
 		public ActionResult PostIndex()
 		{
-			try{
-				var filename_obfuscated = HttpContext.Request.Form["fname"];
-				var secret = System.IO.File.ReadAllText("secret.txt");
-				var filename = Search(filename_obfuscated, secret);
-				if(String.IsNullOrEmpty(filename)){
-					return Content("Could not find the filename in question...");
-				}
-				var path = String.Format("scripts/{0}", filename);
-				Process.Start(path);
-				string response = String.Format("Successfully executed {0}!", filename);
-				return Content(response);
-			} catch (Exception e){
-				var err = String.Format("An error has occured: {0}", e);
-				return Content(err);
+
+			var filename_obfuscated = HttpContext.Request.Form["fname"];
+			var secret = System.IO.File.ReadAllText("secret.txt");
+
+			var filename = Search(filename_obfuscated, secret);
+
+			if(String.IsNullOrEmpty(filename)){
+				return Content("Could not find the filename in question...");
 			}
+			
+			var path = String.Format("scripts/{0}", filename);
+			Process.Start(path);
+			var response = String.Format("Successfully executed {0}!", filename);
+			return Content(response);
+
 		}
 	}
 }
