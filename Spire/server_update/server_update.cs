@@ -73,7 +73,7 @@ namespace server_update
                 } catch (Exception e) {
                     
                     var err = e.ToString();
-                    var error = string.Format("[!] Error on {0}\n\n{1}\n", line, err);
+                    var error = string.Format("[!] An error has occurred with {0}!\n\n{1}\n", line, err);
                     var err_file = "slaves.log";
                     
                     if(System.IO.File.Exists(err_file)){
@@ -86,7 +86,7 @@ namespace server_update
                         stream.Close();
                     }
 
-                    Console.WriteLine("Something is wrong with {0}... Check {1} for more details...\n", line, err_file);
+                    Console.WriteLine("Something went wrong with {0}... Check {1} for more details...\n", line, err_file);
 
                 }
             }

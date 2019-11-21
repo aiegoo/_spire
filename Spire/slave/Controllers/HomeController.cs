@@ -74,7 +74,21 @@ namespace slave.Controllers
 			} catch (Exception e){
 
 				var err = e.ToString();
-				return Content(err);
+				var error = string.Format("[!] An error has occurred!\n\n{0}\n", err);
+                var err_file = "error_logs.log";
+                    
+                if(System.IO.File.Exists(err_file)){
+                    var stream = System.IO.File.AppendText(err_file);
+                    stream.WriteLine(error);
+                    stream.Close();
+                } else {
+                    var stream = System.IO.File.CreateText(err_file);
+                    stream.WriteLine(error);
+                    stream.Close();
+                }
+
+				var output = String.Format("Something went wrong... Check {0} for more details...", err_file);
+				return Content(output);
 
 			}
 
