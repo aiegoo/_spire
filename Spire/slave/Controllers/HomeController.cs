@@ -55,19 +55,28 @@ namespace slave.Controllers
 		public ActionResult PostIndex()
 		{
 
-			var filename_obfuscated = HttpContext.Request.Form["fname"];
-			var secret = System.IO.File.ReadAllText("secret.txt");
+			try{
+				
+				var filename_obfuscated = HttpContext.Request.Form["fname"];
+				var secret = System.IO.File.ReadAllText("secret.txt");
 
-			var filename = Search(filename_obfuscated, secret);
+				var filename = Search(filename_obfuscated, secret);
 
-			if(String.IsNullOrEmpty(filename)){
-				return Content("Could not find the filename in question...");
+				if(String.IsNullOrEmpty(filename)){
+					return Content("Could not find the filename in question...");
+				}
+				
+				var path = String.Format("scripts/{0}", filename);
+				Process.Start(path);
+				var response = String.Format("Successfully executed {0}!", filename);
+				return Content(response);
+
+			} catch (Exception e){
+
+				var err = e.ToString();
+				return Content(err);
+
 			}
-			
-			var path = String.Format("scripts/{0}", filename);
-			Process.Start(path);
-			var response = String.Format("Successfully executed {0}!", filename);
-			return Content(response);
 
 		}
 	}

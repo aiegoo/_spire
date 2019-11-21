@@ -73,8 +73,20 @@ namespace server_update
                 } catch (Exception e) {
                     
                     var err = e.ToString();
-                    err = "\n";
-                    Console.WriteLine("Something went wrong on {0}...{1}", line, err);
+                    var error = string.Format("[!] Error on {0}\n\n{1}\n", line, err);
+                    var err_file = "slaves.log";
+                    
+                    if(System.IO.File.Exists(err_file)){
+                        var stream = System.IO.File.AppendText(err_file);
+                        stream.WriteLine(error);
+                        stream.Close();
+                    } else {
+                        var stream = System.IO.File.CreateText(err_file);
+                        stream.WriteLine(error);
+                        stream.Close();
+                    }
+
+                    Console.WriteLine("Something is wrong with {0}... Check slaves.log for more details...\n", line);
 
                 }
             }
