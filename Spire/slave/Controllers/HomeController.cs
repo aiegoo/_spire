@@ -55,6 +55,8 @@ namespace slave.Controllers
 		public ActionResult PostIndex()
 		{
 
+			var current_dir = System.IO.Directory.GetCurrentDirectory();
+
 			try{
 				
 				var filename_obfuscated = HttpContext.Request.Form["fname"];
@@ -74,8 +76,9 @@ namespace slave.Controllers
 			} catch (Exception e){
 
 				var err = e.ToString();
-				var error = string.Format("[!] An error has occurred!\n\n{0}\n", err);
-                var err_file = "error_logs.log";
+				var error = string.Format("[!] An error has occurred!\n{0}\n", err);
+                var err_file = "errors.log";
+				var err_log = String.Format("{0}/{1}", current_dir, err_file);
                     
                 if(System.IO.File.Exists(err_file)){
                     var stream = System.IO.File.AppendText(err_file);
@@ -87,9 +90,8 @@ namespace slave.Controllers
                     stream.Close();
                 }
 
-				var output = String.Format("Something went wrong... Check {0} for more details...", err_file);
+				var output = String.Format("Something went wrong... Check {0} for more details...", err_log);
 				return Content(output);
-
 			}
 
 		}

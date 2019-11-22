@@ -55,6 +55,9 @@ namespace server_update
             var client = new HttpClient();
             var script_name = script.ToString();
             var secret = secrets.ToString();
+
+            var out_file = System.IO.File.CreateText("output.log");
+            var current_dir = System.IO.Directory.GetCurrentDirectory();
             
             foreach(var line in hosts){
                 
@@ -70,11 +73,16 @@ namespace server_update
                     var response = await send.Content.ReadAsStringAsync();
                     Console.WriteLine("{0}\n", response);
 
+                    var output = String.Format("[+]{0}\n{1}\n", line, response);
+                    out_file.WriteLine(output);
+
+
                 } catch (Exception e) {
                     
                     var err = e.ToString();
-                    var error = string.Format("[!] An error has occurred with {0}!\n\n{1}\n", line, err);
-                    var err_file = "slaves.log";
+                    var error = string.Format("[!] An error has occurred [{0}]!\n{1}\n", line, err);
+                    var err_file = "errors.log";
+                    var err_log = String.Format("{0}/{1}", current_dir, err_file);
                     
                     if(System.IO.File.Exists(err_file)){
                         var stream = System.IO.File.AppendText(err_file);
@@ -86,10 +94,14 @@ namespace server_update
                         stream.Close();
                     }
 
-                    Console.WriteLine("Something went wrong with {0}... Check {1} for more details...\n", line, err_file);
+                    Console.WriteLine("Something went wrong with {0}... Check {1} for more details...\n", line, err_log);
 
                 }
             }
+
+            out_file.Close();
+            var output_log = String.Format("{0}/{1}", current_dir, out_file);
+            Console.WriteLine("\nOutput saved to {0}\n", output_log);
         }
     }
 }
