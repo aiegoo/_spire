@@ -14,7 +14,7 @@ Spire consists of two programs:
 Server-update takes two arguments:
 
 - Slave group containing a list of slaves to send requests to
-- Name of the script file which to run on the slaves
+- Name of the script file which the slaves should look for and execute
 
 All slaves, along with groups which they belong to, are specified in a <i>slavelist.yaml</i> file.
 
