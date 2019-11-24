@@ -64,7 +64,7 @@ A SHA256 hash is then made out of the aforementioned combination and sent to the
 
 The slave receives the SHA256 hash. It then reads its own secret.txt file and begins going through all of the scripts in the Scripts folder. It concatenates the contents of its own <i>secret.txt</i> file with each script name it finds in the Scripts folder. If it finds a SHA256 hash that matches the one sent to it via the POST request, it knows that it has found the script which it should execute.
 
-<b><i>For this exchange to work, secret.txt files should be identical on both the server-update side and on the slave side. If they are not, the slave will never find a matching hash and will, therefore, notify the sender that it was unable to find the script in question.</i></b>
+<b><i>For this exchange to work, secret.txt files should be identical on both the server-update side and on the slave side. If they are not, the slave will never find a matching hash and will, therefore, notify the sender that it was unable to find the script in question, even if that script really exists.</i></b>
 
 # tl;dr
 
