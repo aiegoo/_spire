@@ -29,6 +29,8 @@ namespace server_update
 
 			var result = new List<string>();
 
+			var port_no = "10000";
+
 			var content = new StringReader(yaml);
 			var deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 			var Groups = deserializer.Deserialize<Groups>(content);
@@ -36,14 +38,16 @@ namespace server_update
 			if(Equals(group_name, "all")){
 				foreach(var group in Groups.groups){
 					foreach(var slave in group.slaves){
-						result.Add(slave.ip);
+						var complete = String.Format("{0}:{1}", slave.ip, port_no);
+						result.Add(complete);
 					}
 				}
 			} else {
 				foreach(var group in Groups.groups){
 					if(Equals(group.name, group_name)){
 						foreach(var slave in group.slaves){
-							result.Add(slave.ip);
+							var complete = String.Format("{0}:{1}", slave.ip, port_no);
+							result.Add(complete);
 						}
 					}
 				}
