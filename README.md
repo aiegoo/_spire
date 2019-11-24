@@ -11,8 +11,8 @@ Spire consists of two programs: server-update and slave.
 # server-update
 Server-update takes two arguments:
 
-Markup: 1. Slave group which to update
-		2. Name of the script file which to run on the slaves
+- Slave group which to update
+- Name of the script file which to run on the slaves
 
 All slaves, along with groups which they belong to, are specified in a <i>slavelist.yaml</i> file.
 
@@ -22,7 +22,8 @@ The file is organized as a list of groups, each having a name and a list of slav
 
 For example:
 
-'''yaml
+```
+
 ---
 groups:
  - name:	Local
@@ -34,19 +35,24 @@ groups:
    slaves:
     - ip:	http://example.com
 ...
-'''
+
+```
 
 It is possible to, for example, run a script called example.sh only on the Local group by running:
 
-'''bash
+```
+
 ./server-update Local example.sh
-'''
+
+```
 
 Alternatively, it is possible to, instead of specifying a group name, tell the program to run a certain script on all groups like so:
 
-'''bash
+```
+
 ./server-update all example.sh
-'''
+
+```
 
 The above command will tell all of the slaves specified in the slavelist.yaml file to search for and execute <i>example.sh</i> on their local machines.
 
@@ -69,13 +75,13 @@ The slave receives the SHA256 hash. It then reads its own secret.txt file and be
 # tl;dr
 
 The files needed for server-update are:
-Markup: 1. slavelist.yaml
-		2. secret.txt
+- slavelist.yaml
+- secret.txt
 
 The files and folders needed for slave are:
-Markup: 1. Scripts (folder)
-		2. Script files within the Scripts folder (With proper permissions and #! lines)
-		3. secret.txt
+- Scripts (folder)
+- Script files within the Scripts folder (With proper permissions and #! lines)
+- secret.txt
 
 Both secret.txt files on the server-update side and slave side should be identical.
 All files should be located within the same directory as the programs are.
