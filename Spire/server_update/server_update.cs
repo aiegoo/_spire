@@ -26,23 +26,19 @@ namespace server_update
 
         public static async Task Main(string[] args)
         {
-            
+
             var hosts = new string[0];
             var script = new StringBuilder();
+            var group = new StringBuilder();
             var secrets = new StringBuilder();
+            var parser = new Parser();
             
-            if(args.Length != 1){
-                Console.WriteLine("Script name needed as an argument...");
+            if(args.Length != 2){
+                Console.WriteLine("server-update [group name or all] [script name]");
                 Environment.Exit(1);
             } else {
-                script.Append(args[0]);
-            }
-
-            if(System.IO.File.Exists("slavelist.txt")){
-                hosts = System.IO.File.ReadAllLines("slavelist.txt");
-            } else {
-                Console.WriteLine("Could not find slavelist.txt file...");
-                Environment.Exit(1);
+                group.Append(args[0]);
+                script.Append(args[1]);
             }
 
             if(System.IO.File.Exists("secret.txt")){
@@ -54,9 +50,18 @@ namespace server_update
 
             var client = new HttpClient();
             var script_name = script.ToString();
+            var group_name = group.ToString();
             var secret = secrets.ToString();
 
-            var out_file = System.IO.File.CreateText("output.log");
+            if(System.IO.File.Exists("slavelist.yaml")){
+                hosts = parser.Parse(System.IO.File.ReadAllText("slavelist.yaml"), group_name);
+            } else {
+                Console.WriteLine("Could not find slavelist.yaml file...");
+                Environment.Exit(1);
+            }
+
+            var output_filename = "output.log";
+            var out_file = System.IO.File.CreateText(output_filename);
             var current_dir = System.IO.Directory.GetCurrentDirectory();
             
             foreach(var line in hosts){
@@ -99,9 +104,9 @@ namespace server_update
                 }
             }
 
+            var output_log = String.Format("{0}/{1}", current_dir, output_filename);
             out_file.Close();
-            var output_log = String.Format("{0}/{1}", current_dir, out_file);
-            Console.WriteLine("\nOutput saved to {0}\n", output_log);
+            Console.WriteLine("Output saved to {0}\n", output_log);
         }
     }
 }
