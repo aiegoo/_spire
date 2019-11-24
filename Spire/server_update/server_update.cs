@@ -63,6 +63,11 @@ namespace server_update
             var output_filename = "output.log";
             var out_file = System.IO.File.CreateText(output_filename);
             var current_dir = System.IO.Directory.GetCurrentDirectory();
+
+            if(hosts.Length == 0){
+                Console.WriteLine("\nCould not find any slaves belonging to {0}... Please check the configuration file...\n", group_name);
+                Environment.Exit(1);
+            }
             
             foreach(var line in hosts){
                 
