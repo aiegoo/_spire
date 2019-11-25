@@ -54,7 +54,9 @@ Alternatively, it is possible to, instead of specifying a group name, tell the p
 Slave is a web server which listens on port 10000.
 Slave can send and receive data only through a POST request. The data it receives is a script name which it then looks for in the Scripts folder, located within the same directory as the slave program itself. If it finds the script in question, it will attempt to execute it within a separate process. If it succeeds, it will notify the sender that the script was executed successfully; Alternatively, it will notify the sender that something went wrong or that the script in question was not found.
 
-It is important to note that all scripts should have a proper #! line, along with executable permissions. If they do not, the slave will catch and log an error.
+<b><i>It is important to note that all scripts should have a proper #! line, along with executable permissions. If they do not, the slave will catch and log an error.</i></b>
+
+The slave is, also, not bound by any one programming language. It merely executes programs it is told to. Therefore it is possible to use any programming language to write scripts for the slave to execute. The name "Scripts" is also pure nomenclature, since the slave can, also, execute compiled programs.
 
 # secret.txt
 <i>Secret.txt</i> file should be filled with arbitrary, random data supplied by the user. It is used for secure hashing of data which is to be transmitted over the network. It should be located within the same directory as the programs.
