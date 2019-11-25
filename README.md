@@ -58,6 +58,8 @@ Slave can send and receive data only through a POST request. The data it receive
 
 The slave is, also, not bound by any one programming language. It merely executes programs it is told to. Therefore it is possible to use any programming language to write scripts for the slave to execute. The name "Scripts" is also pure nomenclature, since the slave can, also, execute compiled programs.
 
+Consequently, it is possible to populate the Scripts folder with links to actual programs located elsewhere on the local computer.
+
 # secret.txt
 <i>Secret.txt</i> file should be filled with arbitrary, random data supplied by the user. It is used for secure hashing of data which is to be transmitted over the network. It should be located within the same directory as the programs.
 
