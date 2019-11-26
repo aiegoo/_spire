@@ -21,7 +21,7 @@ namespace slave
                 Environment.Exit(1);
             }
 
-			if(!System.IO.Directory.Exists("scripts")){
+			if(!System.IO.Directory.Exists("Scripts")){
 				Console.WriteLine("Scripts directory does not exist...");
 				Environment.Exit(1);
 			}

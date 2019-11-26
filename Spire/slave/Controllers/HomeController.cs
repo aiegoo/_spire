@@ -17,7 +17,7 @@ namespace slave.Controllers
 		private string Search(string data, string secret){
 			
 			var result = new StringBuilder();
-			var dir = new DirectoryInfo("scripts");
+			var dir = new DirectoryInfo("Scripts");
 			var files = dir.GetFiles("*");
 
 			foreach(FileInfo file in files){
@@ -34,7 +34,7 @@ namespace slave.Controllers
         private static string Obfuscate(string data){
             
 			var result = new StringBuilder();
-            var sha256 = SHA256.Create();
+			var sha256 = SHA256.Create();
             var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(data));
             
 			for(int i = 0; i < bytes.Length; i++){
