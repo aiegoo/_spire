@@ -17,7 +17,7 @@ namespace slave.Controllers
 		private string Search(string data, string secret){
 			
 			var result = new StringBuilder();
-			var dir = new DirectoryInfo("Scripts");
+			var dir = new DirectoryInfo("scripts");
 			var files = dir.GetFiles("*");
 
 			foreach(FileInfo file in files){
