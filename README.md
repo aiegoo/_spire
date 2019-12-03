@@ -27,12 +27,12 @@ For example:
 ```
 ---
 groups:
- - name:	Local
+ - name:  Local
    slaves:
-    - ip:	127.0.0.1
-    - ip:	localhost
+    - ip: 127.0.0.1
+    - ip: localhost
 
- - name:	Remote
+ - name:  Remote
    slaves:
     - ip: example.com
     - ip: 93.184.216.34
