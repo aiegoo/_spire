@@ -34,7 +34,7 @@ groups:
 
  - name:	Remote
    slaves:
-    - ip:	example.com
+    - ip: example.com
     - ip: 93.184.216.34
 ...
 ```
