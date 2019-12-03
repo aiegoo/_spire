@@ -49,6 +49,7 @@ namespace server_update
             }
 
             var client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(15);
             var script_name = script.ToString();
             var group_name = group.ToString();
             var secret = secrets.ToString();
