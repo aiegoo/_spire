@@ -29,12 +29,13 @@ For example:
 groups:
  - name:	Local
    slaves:
-    - ip:	http://127.0.0.1
-    - ip:	http://localhost
+    - ip:	127.0.0.1
+    - ip:	localhost
 
  - name:	Remote
    slaves:
-    - ip:	http://example.com
+    - ip:	example.com
+    - ip: 93.184.216.34
 ...
 ```
 

@@ -29,6 +29,7 @@ namespace server_update
 
 			var result = new List<string>();
 
+			var prefix = "http://";
 			var port_no = "10000";
 
 			var content = new StringReader(yaml);
@@ -38,7 +39,7 @@ namespace server_update
 			if(Equals(group_name, "all")){
 				foreach(var group in Groups.groups){
 					foreach(var slave in group.slaves){
-						var complete = String.Format("{0}:{1}", slave.ip, port_no);
+						var complete = String.Format("{0}{1}:{2}", prefix, slave.ip, port_no);
 						result.Add(complete);
 					}
 				}
@@ -46,7 +47,7 @@ namespace server_update
 				foreach(var group in Groups.groups){
 					if(Equals(group.name, group_name)){
 						foreach(var slave in group.slaves){
-							var complete = String.Format("{0}:{1}", slave.ip, port_no);
+							var complete = String.Format("{0}{1}:{2}", prefix, slave.ip, port_no);
 							result.Add(complete);
 						}
 					}
